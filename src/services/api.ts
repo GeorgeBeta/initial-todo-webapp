@@ -7,6 +7,7 @@ import awsconfig from './aws-config';
 Amplify.configure(awsconfig);
 
 const IS_MOCK = config.isMock; // Toggle this to switch between mock and real API
+const API_URL = config.serverUrl;
 
 // Real API implementation using Amplify Auth
 const realApi = {
@@ -86,11 +87,18 @@ const realApi = {
   },
 
   async getTodos(token: string) {  
-    // TO IMPLEMENT
+    const response = await fetch(`${API_URL}todos`);
+    return handleResponse(response);
+
   },
 
   async createTodo(token: string, title: string) {
-        // TO IMPLEMENT
+    const response = await fetch(`${API_URL}todos`, {
+      method: 'POST',
+      body: JSON.stringify({ title }),
+    });
+    return handleResponse(response);
+
   },
 
   async updateTodo(
@@ -98,13 +106,23 @@ const realApi = {
     id: string,
     updates: Partial<{ title: string; completed: boolean }>
   ) {
-        // TO IMPLEMENT
-
+      const response = await fetch(`${API_URL}todos/${id}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(updates),
+      });
+    return handleResponse(response);
   },
 
   async deleteTodo(token: string, id: string) {
-        // TO IMPLEMENT
+    const response = await fetch(`${API_URL}todos/${id}`, {
+      method: 'DELETE',
+    });
+    return handleResponse(response);
   }
+
 };
 
 async function handleResponse(response: Response) {
