@@ -76,7 +76,7 @@ export function TodoApp() {
           <div className="divide-y divide-gray-100">
             {filteredTodos.map(todo => (
               <TodoItem
-                key={todo.id}
+                key={todo.todoId}
                 todo={todo}
                 onToggle={toggleTodo}
                 onDelete={deleteTodo}
