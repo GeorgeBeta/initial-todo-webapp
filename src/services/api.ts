@@ -87,7 +87,11 @@ const realApi = {
   },
 
   async getTodos(token: string) {  
-    const response = await fetch(`${API_URL}todos`);
+    const response = await fetch(`${API_URL}todos`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     return handleResponse(response);
 
   },
@@ -95,6 +99,9 @@ const realApi = {
   async createTodo(token: string, title: string) {
     const response = await fetch(`${API_URL}todos`, {
       method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
       body: JSON.stringify({ title }),
     });
     return handleResponse(response);
@@ -110,6 +117,7 @@ const realApi = {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(updates),
       });
@@ -119,6 +127,9 @@ const realApi = {
   async deleteTodo(token: string, id: string) {
     const response = await fetch(`${API_URL}todos/${id}`, {
       method: 'DELETE',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     });
     return handleResponse(response);
   }
